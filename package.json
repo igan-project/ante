@@ -1,0 +1,82 @@
+{
+  "name": "antejs",
+  "version": "0.0.1",
+  "description": "Ante is an immutable date / time / locale library alternative to Moment.js (or Day.js)",
+  "keywords": [
+    "ISO-8601",
+    "antejs",
+    "date",
+    "dayjs",
+    "immutable",
+    "locale",
+    "moment",
+    "momentjs",
+    "time"
+  ],
+  "license": "MIT",
+  "author": "michaelhazan",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./plugin/*": {
+      "types": "./dist/plugin/*/index.d.ts",
+      "import": "./dist/plugin/*/index.js",
+      "require": "./dist/plugin/*/index.cjs"
+    },
+    "./declarations/*": {
+      "types": "./dist/declarations/*.d.ts"
+    }
+  },
+  "scripts": {
+    "size": "size-limit",
+    "test": "vitest run",
+    "test:build": "vitest run --project=bundle",
+    "test:raw": "vitest run --project=unit",
+    "test:watch": "vitest watch",
+    "spell": "cspell .",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "typescript": "tsc",
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.31.0",
+    "@size-limit/preset-small-lib": "12.1.0",
+    "@types/node": "25.9.1",
+    "@vitest/coverage-v8": "4.1.7",
+    "cspell": "10.0.1",
+    "dayjs": "1.11.21",
+    "knip": "6.15.0",
+    "oxfmt": "0.52.0",
+    "oxlint": "1.67.0",
+    "pkg-pr-new": "0.0.75",
+    "rollup-plugin-copy": "3.5.0",
+    "size-limit": "12.1.0",
+    "tsdown": "0.22.1",
+    "typescript": "6.0.3",
+    "vitest": "4.1.7"
+  },
+  "size-limit": [
+    {
+      "path": "./dist/index.js"
+    },
+    {
+      "path": "./dist/index.cjs"
+    }
+  ],
+  "packageManager": "pnpm@11.7.0+sha512.19cc852c120c7125760f2443ee6be0ca5b40f9f50598de1a09a1f177503e010e57c23c77646e01e761de59bf874fb22a3398c33ab9691fc13eb946b6f0f4d620"
+}
