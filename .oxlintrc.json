@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "env": {
+    "builtin": true,
+    "es2022": true,
+    "node": true,
+    "browser": false
+  },
+  "plugins": ["typescript", "unicorn", "oxc", "jsdoc", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "globals": {
+    "console": "readonly",
+    "module": "readonly",
+    "exports": "writable",
+    "require": "readonly",
+    "define": "readonly",
+    "Intl": "readonly",
+    "Uint8Array": "readonly"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.spec.ts"],
+      "env": {
+        "vitest": true
+      }
+    }
+  ],
+  "ignorePatterns": ["node_modules", "dist"]
+}

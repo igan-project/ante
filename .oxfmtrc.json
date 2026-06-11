@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "arrowParens": "always",
+  "trailingComma": "es5",
+  "jsdoc": {
+    "capitalizeDescriptions": true,
+    "descriptionWithDot": true,
+    "preferCodeFences": true,
+    "bracketSpacing": true,
+    "commentLineStrategy": "multiline"
+  },
+  "ignorePatterns": ["pnpm-lock.yaml", "node_modules"]
+}
