@@ -1,5 +1,15 @@
 name: Package Pull Request 📦
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - "src/**"
+      - "tsdown.config.ts"
+      - "pnpm-lock.yaml"
+  pull_request:
+    paths:
+      - "src/**"
+      - "tsdown.config.ts"
+      - "pnpm-lock.yaml"
 
 jobs:
   build:

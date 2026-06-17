@@ -12,6 +12,7 @@ export default defineConfig({
               find: /^@\/(.+)\.js$/,
               replacement: `${src}/$1`,
             },
+            { find: "antejs", replacement: `${src}/index.js` },
           ],
         },
         test: {
