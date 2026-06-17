@@ -60,7 +60,7 @@ jobs:
           command: pnpm test --project='bundle'
 
 workflows:
-  pr_verification:
+  ci:
     jobs:
       - analyze
       - build
