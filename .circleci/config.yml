@@ -1,0 +1,70 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@7.2.1
+
+commands:
+  setup:
+    description: "Initial setup - checkout and PNPM"
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: pnpm
+
+jobs:
+  analyze:
+    executor: node/default
+    steps:
+      - setup
+      - run:
+          name: Formatting 🖌️
+          command: pnpm run format:check
+      - run:
+          name: Linting 🧹
+          command: pnpm run lint
+      - run:
+          name: Spelling 📝
+          command: pnpm run spell
+
+  build:
+    executor: node/default
+    steps:
+      - setup
+      - run:
+          name: Typescript ⌨️
+          command: pnpm run typescript
+      - run:
+          name: Build 🏗️
+          command: pnpm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  test:
+    executor: node/default
+    steps:
+      - setup
+      - run:
+          name: Test (Non-Bundle) 🧪
+          command: pnpm test --project='!bundle'
+
+  test-bundle:
+    executor: node/default
+    steps:
+      - setup
+      - attach_workspace:
+          at: .
+      - run:
+          name: Test (Bundle) ⚗️
+          command: pnpm test --project='bundle'
+
+workflows:
+  pr_verification:
+    jobs:
+      - analyze
+      - build
+      - test
+      - test-bundle:
+          requires:
+            - build
