@@ -190,13 +190,8 @@ ante.utils = utils;
 ante.isAnte = isAnte;
 
 export default ante;
+
 export { ante };
-
-export const definePlugin = <TConfig>(plugin: ante.Plugin<TConfig>): ante.Plugin<TConfig> => plugin;
-
-export const defineExtension = <TConfig>(
-  extension: ante.Extension<TConfig>
-): ante.Extension<TConfig> => extension;
 
 export class Ante implements ante.Ante {
   readonly $isAnteClass = true as const;

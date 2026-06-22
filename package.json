@@ -30,10 +30,25 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./plugin": {
+      "types": "./dist/plugin/index.d.ts",
+      "import": "./dist/plugin/index.js",
+      "require": "./dist/plugin/index.cjs"
+    },
+    "./extension": {
+      "types": "./dist/extension/index.d.ts",
+      "import": "./dist/extension/index.js",
+      "require": "./dist/extension/index.cjs"
+    },
     "./plugin/*": {
       "types": "./dist/plugin/*/index.d.ts",
       "import": "./dist/plugin/*/index.js",
       "require": "./dist/plugin/*/index.cjs"
+    },
+    "./extension/*": {
+      "types": "./dist/extension/*/index.d.ts",
+      "import": "./dist/extension/*/index.js",
+      "require": "./dist/extension/*/index.cjs"
     },
     "./declarations/*": {
       "types": "./dist/declarations/*.d.ts"
@@ -51,7 +66,8 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "typescript": "tsc",
-    "build": "tsdown"
+    "build": "tsdown",
+    "check": "turbo run test spell lint format:check typescript build"
   },
   "devDependencies": {
     "@changesets/cli": "2.31.0",
