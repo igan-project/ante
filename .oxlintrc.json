@@ -6,16 +6,16 @@
     "node": true,
     "browser": false
   },
-  "plugins": ["typescript", "unicorn", "oxc", "jsdoc", "vitest"],
+  "plugins": ["typescript", "unicorn", "oxc", "jsdoc", "eslint", "vitest"],
   "categories": {
     "correctness": "error",
-    "restriction": "error",
-    "suspicious": "warn"
+    "suspicious": "error",
+    "perf": "error"
   },
   "globals": {
     "console": "readonly",
     "module": "readonly",
-    "exports": "writable",
+    "exports": "readonly",
     "require": "readonly",
     "define": "readonly",
     "Intl": "readonly",
@@ -24,27 +24,13 @@
   "overrides": [
     {
       "files": ["src/**"],
-      "rules": {
-        "typescript/no-namespace": "allow",
-        "typescript/explicit-member-accessibility": "allow",
-        "typescript/no-empty-object-type": "allow",
-        "no-bitwise": "allow",
-        "complexity": ["error", { "max": 25 }],
-        "no-param-reassign": "allow",
-        "default-case": "allow",
-        "no-undefined": "allow"
-      }
-    },
-    {
-      "files": ["src/index.ts"],
-      "rules": { "no-use-before-define": "allow" }
+      "rules": {}
     },
     {
       "files": ["**/*.test.ts", "**/*.spec.ts"],
       "env": {
         "vitest": true
-      },
-      "rules": { "vitest/require-test-timeout": "allow" }
+      }
     }
   ],
   "ignorePatterns": ["node_modules", "dist"]
