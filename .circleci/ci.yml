@@ -4,60 +4,71 @@ orbs:
   node: circleci/node@7.2.1
 
 commands:
-  setup:
-    description: "Initial setup - checkout and PNPM"
+  pre:
+    description: "Initial setup - checkout, PNPM and restore Turbo cache"
+    parameters:
+
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: pnpm
+      - restore_cache:
+          keys:
+            - turbo-cache-{{ .Environment.CIRCLE_JOB }}-{{ .Branch }}-{{ .Revision }}
+            - turbo-cache-{{ .Environment.CIRCLE_JOB }}-{{ .Branch }}-
+            - turbo-cache-{{ .Environment.CIRCLE_JOB }}-main-
+            - turbo-cache-{{ .Environment.CIRCLE_JOB }}-
+
+  post:
+    description: "Save Turbo cache"
+    steps:
+      - save_cache:
+          key: turbo-cache-{{ .Environment.CIRCLE_JOB }}-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .turbo
 
 jobs:
   analyze:
     executor: node/default
     steps:
-      - setup
+      - pre
       - run:
-          name: Formatting 🖌️
-          command: pnpm run format:check
-      - run:
-          name: Linting 🧹
-          command: pnpm run lint
-      - run:
-          name: Spelling 📝
-          command: pnpm run spell
+          name: Formatting 🖌️ & Linting 🧹 & Spelling 📝
+          command: pnpm turbo run format:check lint spell
+      - post
 
   build:
     executor: node/default
     steps:
-      - setup
+      - pre
       - run:
-          name: Typescript ⌨️
-          command: pnpm run typescript
-      - run:
-          name: Build 🏗️
-          command: pnpm run build
+          name: Typescript ⌨️ & Build 🏗️
+          command: pnpm turbo run typescript build
       - persist_to_workspace:
           root: .
           paths:
             - dist
+      - post
 
   test:
     executor: node/default
     steps:
-      - setup
+      - pre
       - run:
-          name: Test (Non-Bundle) 🧪
-          command: pnpm test --project='!bundle'
+          name: Test Raw (Non-Bundle) 🧪
+          command: pnpm turbo test:raw
+      - post
 
   test-bundle:
     executor: node/default
     steps:
-      - setup
+      - pre
       - attach_workspace:
           at: .
       - run:
-          name: Test (Bundle) ⚗️
-          command: pnpm test --project='bundle'
+          name: Test Bundle ⚗️
+          command: pnpm turbo test:bundle
+      - post
 
 workflows:
   ci:
