@@ -42,8 +42,8 @@
   "scripts": {
     "size": "size-limit",
     "test": "vitest run",
-    "test:build": "vitest run --project=bundle",
-    "test:raw": "vitest run --project=unit",
+    "test:bundle": "vitest run --project=bundle",
+    "test:raw": "vitest run --project=\"!bundle\"",
     "test:watch": "vitest watch",
     "spell": "cspell .",
     "lint": "oxlint",
@@ -67,6 +67,7 @@
     "rollup-plugin-copy": "3.5.0",
     "size-limit": "12.1.0",
     "tsdown": "0.22.3",
+    "turbo": "2.9.18",
     "typescript": "6.0.3",
     "vitest": "4.1.9"
   },
