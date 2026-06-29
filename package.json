@@ -76,14 +76,14 @@
     "@vitest/coverage-v8": "4.1.9",
     "cspell": "10.0.1",
     "dayjs": "1.11.21",
-    "knip": "6.17.1",
-    "oxfmt": "0.55.0",
-    "oxlint": "1.70.0",
+    "knip": "6.23.0",
+    "oxfmt": "0.56.0",
+    "oxlint": "1.71.0",
     "pkg-pr-new": "0.0.75",
     "rollup-plugin-copy": "3.5.0",
     "size-limit": "12.1.0",
     "tsdown": "0.22.3",
-    "turbo": "2.9.18",
+    "turbo": "2.10.0",
     "typescript": "6.0.3",
     "vitest": "4.1.9"
   },
@@ -95,5 +95,5 @@
       "path": "./dist/index.cjs"
     }
   ],
-  "packageManager": "pnpm@11.8.0+sha512.c1f5e7c4cb241c8f174b743851d82f42b802324afc8b0f116b96adb15aa06664948dde36960a3ba1079ba5b4b29dd0140135b94b5b5f5263592249d68e555f26"
+  "packageManager": "pnpm@11.9.0+sha512.bd682d5d03fe525ef7c9fd6780c6884d1e756ac4c9c9fe00c538782824310dcf90e3ddc4f53835f06dfaebd5085e41855e0bcbb3b60de2ac5bbab89e5036f03b"
 }
