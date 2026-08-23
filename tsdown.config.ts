@@ -3,8 +3,14 @@ import copy from "rollup-plugin-copy";
 
 export default defineConfig({
   alias: { "@": "./src" },
-  entry: ["src/index.ts", "src/plugin/*/index.ts"],
-  format: ["esm", "cjs"],
+  entry: [
+    "src/index.ts",
+    "src/plugin/index.ts",
+    "src/plugin/*/index.ts",
+    "src/extension/index.ts",
+    "src/extension/*/index.ts",
+  ],
+  format: ["esm"],
   minify: true,
   treeshake: {
     moduleSideEffects: false,
