@@ -3,6 +3,36 @@ import { isUndefined, valueOfPossibleUnit } from "./internal.js";
 
 declare namespace ante {
   export interface Ante {
+    millisecond(): number;
+    millisecond(value: number): ante.Ante;
+
+    second(): number;
+    second(value: number): ante.Ante;
+
+    minute(): number;
+    minute(value: number): ante.Ante;
+
+    hour(): number;
+    hour(value: number): ante.Ante;
+
+    day(): number;
+    day(value: number): ante.Ante;
+
+    week(): number;
+    week(value: number): ante.Ante;
+
+    date(): number;
+    date(value: number): ante.Ante;
+
+    month(): number;
+    month(value: number): ante.Ante;
+
+    quarter(): number;
+    quarter(value: number): ante.Ante;
+
+    year(): number;
+    year(value: number): ante.Ante;
+
     /**
      * Creates a clone of the current `Ante` class.
      *
@@ -96,6 +126,8 @@ declare namespace ante {
     valueOf(): number;
   }
 
+  export type AnteClass = new (config: ante.Config) => ante.Ante;
+
   export interface Config {
     parsable?: Parsable;
     format?: string;
@@ -122,10 +154,10 @@ declare namespace ante {
     /**
      * Extend an extension into the ante class.
      */
-    extend<T = never>(
-      extension: ante.Extension<T>,
-      ...args: T extends never ? [] : T extends undefined ? [] : [config: T]
-    ): void;
+
+    extend(extension: ante.Extension<undefined>): void;
+    extend<T>(extension: ante.Extension<T>, config: T): void;
+    extend<T = never>(extension: ante.Extension<T>, config?: T): void;
 
     /**
      * Plug a plugin into the ante factory.
@@ -136,9 +168,25 @@ declare namespace ante {
     ): void;
   }
 
+  /**
+   * A lot of the current parsable options will be completely invalid when `Temporal `
+   */
   export interface ExpandableParsable {
+    /**
+     * Returns ante representation of `now` equivalent to `ante(new Date())`.
+     */
     undefined: undefined;
+    /**
+     * Returns ante representation of an `Invalid Date` equivalent to `ante(new Date(NaN))`.
+     *
+     * NOTE: Backport from moment, moment sees it as parsing an invalid moment object.
+     *
+     * TODO: Should this even be allowed? should it be `Invalid`?
+     */
     null: null;
+    /**
+     * Can be used to parse custom strings.
+     */
     dateString: string;
     timestamp: number;
     dateClass: Date;
@@ -169,16 +217,11 @@ declare namespace ante {
 
     export type Plural = `${Long}s`;
   }
-
-  /**
-   * A plugin is used to create separate structures to the ante.
-   */
-  export type Plugin<TConfig> = (pluginConfig: TConfig, anteFactory: Factory) => void;
-  export type Extension<TConfig> = (extensionConfig: TConfig, anteClass: Ante) => void;
 }
 
-const ante = ((parsable?: ante.Parsable, format?: string): ante.Ante =>
-  new Ante({ parsable, format })) as ante.Factory;
+const ante = <ante.Factory>(
+  ((parsable?: ante.Parsable, format?: string): ante.Ante => new Ante({ parsable, format }))
+);
 
 const isAnte = (that: unknown): that is ante.Ante =>
   !!that &&
@@ -189,12 +232,8 @@ ante.utils = utils;
 
 ante.isAnte = isAnte;
 
-export default ante;
-
-export { ante };
-
 export class Ante implements ante.Ante {
-  readonly $isAnteClass = true as const;
+  readonly $isAnteClass = true;
 
   readonly $valid!: boolean;
 
@@ -209,7 +248,7 @@ export class Ante implements ante.Ante {
     return this.set("ms", value);
   }
 
-  s!: number;
+  readonly s!: number;
   second(): number;
   second(value: number): ante.Ante;
   second(value?: number): number | ante.Ante {
@@ -218,7 +257,7 @@ export class Ante implements ante.Ante {
     return this.set("s", value);
   }
 
-  m!: number;
+  readonly m!: number;
   minute(): number;
   minute(value: number): ante.Ante;
   minute(value?: number): number | ante.Ante {
@@ -227,7 +266,7 @@ export class Ante implements ante.Ante {
     return this.set("m", value);
   }
 
-  h!: number;
+  readonly h!: number;
   hour(): number;
   hour(value: number): ante.Ante;
   hour(value?: number): number | ante.Ante {
@@ -236,7 +275,7 @@ export class Ante implements ante.Ante {
     return this.set("h", value);
   }
 
-  d!: number;
+  readonly d!: number;
   day(): number;
   day(value: number): ante.Ante;
   day(value?: number): number | ante.Ante {
@@ -245,7 +284,7 @@ export class Ante implements ante.Ante {
     return this.set("d", value);
   }
 
-  w!: number;
+  readonly w!: number;
   week(): number;
   week(value: number): ante.Ante;
   week(value?: number): number | ante.Ante {
@@ -254,7 +293,7 @@ export class Ante implements ante.Ante {
     return this.set("w", value);
   }
 
-  D!: number;
+  readonly D!: number;
   date(): number;
   date(value: number): ante.Ante;
   date(value?: number): number | ante.Ante {
@@ -263,7 +302,7 @@ export class Ante implements ante.Ante {
     return this.set("D", value);
   }
 
-  M!: number;
+  readonly M!: number;
   month(): number;
   month(value: number): ante.Ante;
   month(value?: number): number | ante.Ante {
@@ -272,7 +311,7 @@ export class Ante implements ante.Ante {
     return this.set("M", value);
   }
 
-  q!: number;
+  readonly q!: number;
   quarter(): number;
   quarter(value: number): ante.Ante;
   quarter(value?: number): number | ante.Ante {
@@ -281,7 +320,7 @@ export class Ante implements ante.Ante {
     return this.set("q", value);
   }
 
-  y!: number;
+  readonly y!: number;
   year(): number;
   year(value: number): ante.Ante;
   year(value?: number): number | ante.Ante {
@@ -291,13 +330,15 @@ export class Ante implements ante.Ante {
   }
 
   constructor({ parsable, format }: ante.Config) {
-    return ante.utils.parse(parsable, format);
+    this.$Date = ante.utils.parse(parsable, format);
+
+    ante.utils.cascade(this);
   }
 
   static create(date: Date): ante.Ante {
     const instance: ante.Mutable = Object.create(Ante.prototype);
     instance.$isAnteClass = true;
-    instance.$valid = !Number.isNaN(+date);
+    instance.$valid = !isNaN(+date); // TODO: If at any point there is a need for more `isNaN` checks, export to internal.ts
     instance.$Date = date;
 
     return ante.utils.cascade(instance);
@@ -373,3 +414,9 @@ export class Ante implements ante.Ante {
     return this.$Date.valueOf();
   }
 }
+
+ante.extend = <T>(plugin: ante.Extension<T>, config?: T) => plugin(config as T, Ante);
+
+ante.unix = (timestamp: number) => new Ante({ parsable: timestamp * 1e3 });
+
+export { ante };

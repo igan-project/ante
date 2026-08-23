@@ -69,7 +69,7 @@ declare module "antejs" {
       /**
        * Extracts a date out of the provided config and the provided format.
        */
-      parse(config?: Parsable, format?: string): ante.Ante;
+      parse(config?: Parsable, format?: string): Date;
 
       /**
        * Cascades for each of the ante's fields and sets them to the date's value.

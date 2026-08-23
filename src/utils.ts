@@ -1,4 +1,4 @@
-import ante, { Ante } from "antejs";
+import { ante } from "antejs";
 import { isUndefined } from "./internal.js";
 
 const getStringDateValues = (
@@ -7,17 +7,9 @@ const getStringDateValues = (
   natives: ante.Utils["native"]
 ): [number, number, number, number, number, number, number] => {
   const now = new Date();
-  const result = Object.values(natives)
+  const result = <[number, number, number, number, number, number, number]>Object.values(natives)
     .filter((native) => native !== "Day")
-    .map((native) => now[`get${native}`]()) as [
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-  ];
+    .map((native) => now[`get${native}`]());
 
   let am: boolean | undefined;
 
@@ -149,10 +141,9 @@ export const utils: ante.Utils = {
   cascade(anteClass) {
     const date = anteClass.$Date;
 
-    for (const [key, native] of Object.entries(this.native) as [
-      ante.Unit.Short,
-      ante.Utils["native"][keyof ante.Utils["native"]],
-    ][]) {
+    for (const [key, native] of <
+      [ante.Unit.Short, ante.Utils["native"][keyof ante.Utils["native"]]][]
+    >Object.entries(this.native)) {
       anteClass[key] = date[`get${native}`]();
     }
 
@@ -172,9 +163,13 @@ export const utils: ante.Utils = {
     return anteClass;
   },
   parse(config, format) {
-    if (isUndefined(config)) return Ante.create(new Date());
-    if (config === null) return Ante.create(new Date(Number.NaN)); // NOTE: null is an `Invalid Date`.
-    if (typeof config === "string") {
+    if (isUndefined(config)) return new Date();
+    if (config === null) return new Date(NaN); // NOTE: null is an `Invalid Date`.
+    if (
+      typeof config === "string" &&
+      // NOTE: If this is an ISO 8601 string we skip it to save on time
+      !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,})?(Z|[+-]\d{2}:?\d{2})?$/.test(config)
+    ) {
       format ??= this.format;
 
       format = format.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -195,13 +190,14 @@ export const utils: ante.Utils = {
 
       const match = parserRegex.exec(config);
 
-      if (!match) return Ante.create(new Date(config));
-      const result = getStringDateValues(tokenOrder, match, this.native);
+      if (match) {
+        const result = getStringDateValues(tokenOrder, match, this.native);
 
-      return Ante.create(new Date(...result));
+        return new Date(...result);
+      }
     }
-    if (ante.isAnte(config)) return Ante.create(config.$Date);
+    if (ante.isAnte(config)) return new Date(config.$Date);
 
-    return Ante.create(new Date(config));
+    return new Date(config);
   },
 };
