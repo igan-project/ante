@@ -64,8 +64,8 @@
     "spell": "cspell .",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "format": "oxfmt . .[^.]*",
-    "format:check": "oxfmt --check . .[^.]*",
+    "format": "oxfmt . '.[!.]*'",
+    "format:check": "oxfmt --check . '.[!.]*'",
     "typescript": "tsc",
     "build": "tsdown",
     "check": "turbo run test spell lint format:check typescript build"
