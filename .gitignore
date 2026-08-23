@@ -1,4 +1,40 @@
+# Logs
+logs
+*.log
+.pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like vitest
+coverage
+
+# Dependency directories
 node_modules/
+
+# Build
 dist/
+build/
+out/
+*.tsbuildinfo
+
+# Turbo
 .turbo/
 
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Cache
+.cache/
+.eslintcache
+
+# Misc
+*.tmp
+*.bak

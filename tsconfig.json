@@ -5,6 +5,7 @@
     "module": "NodeNext",
     "noEmit": true,
     "strict": true,
+    "declaration": true,
     "noUncheckedIndexedAccess": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
@@ -14,6 +15,7 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    "isolatedDeclarations": true,
     "paths": {
       "antejs": ["./src/index.ts"],
       "@/*": ["./src/*"]
