@@ -24,7 +24,7 @@
   "overrides": [
     {
       "files": ["src/**"],
-      "rules": {}
+      "rules": { "typescript/consistent-type-imports": "error" }
     },
     {
       "files": ["**/*.test.ts", "**/*.spec.ts"],

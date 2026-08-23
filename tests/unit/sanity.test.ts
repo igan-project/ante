@@ -1,4 +1,4 @@
-import ante from "@/index.js";
+import { ante } from "@/index.js";
 import { describe, expect, it } from "vitest";
 
 describe("Sanity", () => {

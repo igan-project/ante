@@ -1,4 +1,4 @@
-import ante from "antejs";
+import { ante } from "antejs";
 
 /**
  * NOTE: The purpose of these functions is to minimize the overall size of the library. They are not
