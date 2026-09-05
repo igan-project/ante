@@ -71,27 +71,27 @@
     "check": "turbo run test spell lint format:check typescript build"
   },
   "devDependencies": {
-    "@changesets/cli": "3.0.1",
+    "@changesets/cli": "3.0.2",
     "@size-limit/preset-small-lib": "13.0.3",
     "@types/node": "25.9.5",
-    "@vitest/coverage-v8": "4.1.11",
-    "cspell": "10.1.0",
+    "@vitest/coverage-v8": "5.0.0",
+    "cspell": "10.2.2",
     "dayjs": "1.11.23",
-    "knip": "6.32.2",
-    "oxfmt": "0.64.0",
-    "oxlint": "1.79.0",
+    "knip": "6.34.0",
+    "oxfmt": "0.66.0",
+    "oxlint": "1.81.0",
     "pkg-pr-new": "0.0.88",
     "rollup-plugin-copy": "3.5.0",
     "size-limit": "13.0.3",
-    "tsdown": "0.22.14",
-    "turbo": "2.10.11",
+    "tsdown": "0.23.0",
+    "turbo": "2.10.12",
     "typescript": "7.0.2",
-    "vitest": "4.1.11"
+    "vitest": "5.0.0"
   },
   "size-limit": [
     {
       "path": "./dist/index.js"
     }
   ],
-  "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621"
+  "packageManager": "pnpm@12.3.4"
 }
